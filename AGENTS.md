@@ -1,5 +1,8 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+## Important Constraints
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+- Do not install unnecessary dependencies
+- Do not modify unrelated files
+- Keep code simple and maintainable
+- Prefer explicit code over magic abstractions
+- Use context timeout for external resources
+- Do not implement testing until I need that
