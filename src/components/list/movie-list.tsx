@@ -5,12 +5,26 @@ import { MovieList } from "@/types/movie";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { paths } from "@/config/paths";
+import { createSlug } from "@/lib/utils";
+
+type ListType = "popular" | "now-playing" | "up-coming";
 
 type MovieListProps = {
+  listType: ListType;
+  onViewAllAction: (type: ListType) => void;
   titleSection: string;
   movies: MovieList[];
 };
-export const MovieListComp = ({ titleSection, movies }: MovieListProps) => {
+export const MovieListComp = ({
+  titleSection,
+  movies,
+  onViewAllAction,
+  listType,
+}: MovieListProps) => {
+  const router = useRouter();
   const scrollRef = useRef<HTMLUListElement>(null);
 
   const scrollLeft = () => {
@@ -31,9 +45,12 @@ export const MovieListComp = ({ titleSection, movies }: MovieListProps) => {
     <div className="flex flex-col gap-4">
       <div className="w-full flex justify-between items-center">
         <h1 className="font-heading text-white text-4xl">{titleSection}</h1>
-        <div className="rounded-sm cursor-pointer text-xs p-1 bg-primary">
+        <Button
+          onClick={() => onViewAllAction(listType)}
+          className="rounded-sm cursor-pointer text-xs p-1 bg-primary"
+        >
           <p className="text-white">View All</p>
-        </div>
+        </Button>
       </div>
 
       <div className="relative">
@@ -51,13 +68,23 @@ export const MovieListComp = ({ titleSection, movies }: MovieListProps) => {
           {movies.map((movie) => {
             return (
               <div key={movie.id} className="shrink-0 flex flex-col w-30">
-                <Image
-                  alt="movie poster"
-                  width={120}
-                  height={180}
-                  className="rounded-md cursor-pointer"
-                  src={`${publicEnv.TMDB_BASE_IMG_URL}/original${movie.poster_path}`}
-                />
+                <div className="rounded-md cursor-pointer h-44 transition-all duration-300 hover:scale-110  hover:z-10">
+                  <Image
+                    onClick={() =>
+                      router.push(
+                        paths.movie.detail.getHref(
+                          movie.id,
+                          createSlug(movie.title),
+                        ),
+                      )
+                    }
+                    alt="movie poster"
+                    width={120}
+                    height={180}
+                    className="rounded-md cursor-pointer"
+                    src={`${publicEnv.TMDB_BASE_IMG_URL}/original${movie.poster_path}`}
+                  />
+                </div>
 
                 <div className="mt-4 flex flex-col gap-1">
                   <h4 className="text-white text-sm font-bold truncate">

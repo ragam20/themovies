@@ -4,7 +4,7 @@ import { MovieDetail } from "@/types/movie";
 import { useQuery } from "@tanstack/react-query";
 
 type GetMovieDetailInput = {
-  id: number;
+  id: number | string;
 };
 
 export const getMovieDetail = async ({ id }: GetMovieDetailInput) => {

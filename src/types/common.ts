@@ -13,6 +13,7 @@ export type ApiBaseList<T> = {
 export type MediaListCommon = {
   id: string | number;
   backdrop_path: string;
+  poster_path: string;
   original_language: string;
   popularity: number;
   vote_average: number;

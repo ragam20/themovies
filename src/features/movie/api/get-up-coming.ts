@@ -10,7 +10,11 @@ type UpComingInput = {
   maxDate: string;
 };
 
-export const upcoming = async ({ page, minDate, maxDate }: UpComingInput) => {
+export const getUpComing = async ({
+  page,
+  minDate,
+  maxDate,
+}: UpComingInput) => {
   const resp = await api.get<ApiBaseList<MovieList>>(
     `/movie/upcoming?language=en-US&page=${page}&release_date.gte=${minDate}&release_date.lte=${maxDate}`,
   );
@@ -22,6 +26,6 @@ export const useUpComing = (input: UpComingInput) => {
   return useQuery<MovieList[], Error>({
     retry: maxRetry,
     queryKey: ["movie", "upcoming", input.page, input.minDate, input.maxDate],
-    queryFn: () => upcoming(input),
+    queryFn: () => getUpComing(input),
   });
 };

@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 type GetPopularInput = {
   page: number;
 };
-
 export const getPopular = async ({ page }: GetPopularInput) => {
   const resp = await api.get<ApiBaseList<MovieList>>(
     `/movie/popular?language=en-US&page=${page}`,

@@ -17,7 +17,7 @@ type HeroCarouselProps = {
 
 export const HeroCarousel = ({ movies }: HeroCarouselProps) => {
   return (
-    <div>
+    <section>
       <Carousel
         plugins={[
           Autoplay({
@@ -63,6 +63,6 @@ export const HeroCarousel = ({ movies }: HeroCarouselProps) => {
           })}
         </CarouselContent>
       </Carousel>
-    </div>
+    </section>
   );
 };

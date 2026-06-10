@@ -31,6 +31,7 @@ const menuItems: MenuItem[] = [
 export const MainHeader = ({ classname }: { classname?: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [search, setSearch] = useState<string>("");
+
   const pathname = usePathname();
 
   useEffect(() => {
@@ -63,7 +64,9 @@ export const MainHeader = ({ classname }: { classname?: string }) => {
       >
         {menuItems.map((item) => {
           const isActive =
-            item.href === "/" ? "/" : pathname.startsWith(item.href);
+            item.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(item.href);
 
           return (
             <Link

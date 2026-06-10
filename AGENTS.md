@@ -1,3 +1,5 @@
+## Architecture
+
 ## Important Constraints
 
 - Do not install unnecessary dependencies
