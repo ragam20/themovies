@@ -1,5 +1,9 @@
-import { Cast } from "lucide-react";
-import type { ApiBaseList, MediaDetailCommon, MediaListCommon } from "./common";
+import type {
+  ApiBaseList,
+  Cast,
+  MediaDetailCommon,
+  MediaListCommon,
+} from "./common";
 
 export interface Collection {
   id: number;
@@ -31,12 +35,4 @@ export interface MovieDetail extends MediaDetailCommon {
 export type MovieCredits = {
   id: number;
   cast: Cast[];
-};
-
-export type Cast = {
-  id: number;
-  name: string;
-  original_name: string;
-  profile_path: string | null;
-  character: string;
 };

@@ -8,6 +8,8 @@ export type ApiBaseList<T> = {
   dates?: Dates;
   page: number;
   results: T[];
+  total_pages?: number;
+  total_results?: number;
 };
 
 export type MediaListCommon = {
@@ -68,3 +70,11 @@ export interface MediaDetailCommon {
   vote_average: number;
   vote_count: number;
 }
+
+export type Cast = {
+  id: number;
+  name: string;
+  original_name: string;
+  profile_path: string | null;
+  character: string;
+};

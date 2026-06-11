@@ -1,29 +1,27 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { paths } from "@/config/paths";
 import { publicEnv } from "@/config/public-env";
-import { MovieList } from "@/types/movie";
+import { createSlug } from "@/lib/utils";
+import { TVShowList } from "@/types/tv";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
-import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { paths } from "@/config/paths";
-import { createSlug } from "@/lib/utils";
+import { useRef } from "react";
 
-type ListType = "popular" | "now-playing" | "up-coming";
+type ListType = "airing-today" | "popular" | "on-the-air";
 
-type MovieListProps = {
+type TVShowListProps = {
   listType: ListType;
-  onViewAllAction: (type: ListType) => void;
   titleSection: string;
-  movies: MovieList[];
+  tvShows: TVShowList[];
 };
-export const MovieListComp = ({
-  titleSection,
-  movies,
-  onViewAllAction,
+export const TVShowListComp = ({
   listType,
-}: MovieListProps) => {
+  titleSection,
+  tvShows,
+}: TVShowListProps) => {
   const router = useRouter();
   const scrollRef = useRef<HTMLUListElement>(null);
 
@@ -46,7 +44,9 @@ export const MovieListComp = ({
       <div className="w-full flex justify-between items-center">
         <h1 className="font-heading text-white text-4xl">{titleSection}</h1>
         <Button
-          onClick={() => onViewAllAction(listType)}
+          onClick={() =>
+            router.push(paths.tv.list.getHref(createSlug(listType)))
+          }
           className="rounded-sm cursor-pointer text-xs p-1 bg-primary"
         >
           <p className="text-white">View All</p>
@@ -65,34 +65,30 @@ export const MovieListComp = ({
           ref={scrollRef}
           className="no-scrollbar mt-4 flex gap-4 overflow-x-auto"
         >
-          {movies.map((movie) => {
+          {tvShows.map((tv) => {
             return (
-              <div key={movie.id} className="shrink-0 flex flex-col w-30">
-                <div className="rounded-md cursor-pointer h-44 transition-all duration-300 hover:scale-110  hover:z-10">
+              <div key={tv.id} className="shrink-0 flex flex-col w-30">
+                <div className="relative rounded-md cursor-pointer h-45 w-30 transition-all duration-300 hover:scale-110  hover:z-10">
                   <Image
                     onClick={() =>
                       router.push(
-                        paths.movie.detail.getHref(
-                          movie.id,
-                          createSlug(movie.title),
-                        ),
+                        paths.tv.detail.getHref(tv.id, createSlug(tv.name)),
                       )
                     }
-                    alt="movie poster"
-                    width={120}
-                    height={180}
-                    className="rounded-md cursor-pointer"
-                    src={`${publicEnv.TMDB_BASE_IMG_URL}/original${movie.poster_path}`}
+                    fill
+                    className="object-cover object-top"
+                    alt="tv poster"
+                    src={`${publicEnv.TMDB_BASE_IMG_URL}/original${tv.poster_path}`}
                   />
                 </div>
 
                 <div className="mt-4 flex flex-col gap-1">
                   <h4 className="text-white text-sm font-bold truncate">
-                    {movie.title}
+                    {tv.name}
                   </h4>
                   <div className="text-sm flex gap-2 items-center">
                     <p className="text-white">
-                      {(movie.vote_average / 2).toFixed(1)}
+                      {(tv.vote_average / 2).toFixed(1)}
                       {"/5"}
                     </p>
                     <Star fill="#e6b917" size={24} />

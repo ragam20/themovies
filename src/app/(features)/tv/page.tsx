@@ -1,10 +1,10 @@
+import { TVShowListSection } from "@/app/(features)/tv/_components/tvs-sections";
 import { Footer } from "@/components/footer";
 import { MainHeader } from "@/components/main-header";
 import { getAiringToday } from "@/features/tv/api/get-airing-today";
 import { getOnTheAir } from "@/features/tv/api/get-on-the-air";
 import { getPopular } from "@/features/tv/api/get-popular";
 import { HeroCarousel } from "@/features/tv/components/hero-carousel";
-import { TVShowListSection } from "@/features/tv/components/tvs-sections";
 import { addDate, formatDate } from "@/lib/utils";
 
 export default async function TVPage() {
@@ -26,11 +26,11 @@ export default async function TVPage() {
       <MainHeader />
 
       <main className="flex-1">
-        <HeroCarousel tvs={airingToday} />
+        <HeroCarousel tvs={airingToday.results} />
         <TVShowListSection
-          airingToday={airingToday}
-          onTheAir={onTheAir}
-          popular={popular}
+          airingToday={airingToday.results}
+          onTheAir={onTheAir.results}
+          popular={popular.results}
         />
       </main>
 

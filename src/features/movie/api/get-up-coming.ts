@@ -1,31 +1,33 @@
 import { api } from "@/lib/api-client";
-import { maxRetry } from "@/lib/react-query";
 import { ApiBaseList } from "@/types/common";
 import { MovieList } from "@/types/movie";
-import { useQuery } from "@tanstack/react-query";
 
-type UpComingInput = {
+export type UpComingInput = {
   page: number;
-  minDate: string;
-  maxDate: string;
+  minDate?: string;
+  maxDate?: string;
 };
-
 export const getUpComing = async ({
   page,
   minDate,
   maxDate,
 }: UpComingInput) => {
+  const params = new URLSearchParams({
+    language: "en-US",
+    page: page.toString(),
+  });
+
+  if (minDate) {
+    params.append("release_date.gte", minDate);
+  }
+
+  if (maxDate) {
+    params.append("release_date.lte", maxDate);
+  }
+
   const resp = await api.get<ApiBaseList<MovieList>>(
-    `/movie/upcoming?language=en-US&page=${page}&release_date.gte=${minDate}&release_date.lte=${maxDate}`,
+    `/movie/upcoming?${params.toString()}`,
   );
 
-  return resp.results;
-};
-
-export const useUpComing = (input: UpComingInput) => {
-  return useQuery<MovieList[], Error>({
-    retry: maxRetry,
-    queryKey: ["movie", "upcoming", input.page, input.minDate, input.maxDate],
-    queryFn: () => getUpComing(input),
-  });
+  return resp;
 };

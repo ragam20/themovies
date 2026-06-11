@@ -4,7 +4,7 @@ import { getNowPlaying } from "@/features/movie/api/get-now-playing";
 import { getPopular } from "@/features/movie/api/get-popular";
 import { getUpComing } from "@/features/movie/api/get-up-coming";
 import { HeroCarousel } from "@/features/movie/components/hero-carousel";
-import { MoviesSection } from "@/features/movie/components/movies-section";
+import { MoviesSection } from "@/app/_components/movies-section";
 import { addDate, formatDate } from "@/lib/utils";
 
 export default async function Home() {
@@ -30,11 +30,11 @@ export default async function Home() {
       <MainHeader />
 
       <main className="flex-1">
-        <HeroCarousel movies={nowPlaying} />
+        <HeroCarousel movies={nowPlaying.results} />
         <MoviesSection
-          popularMovies={popular}
-          nowPlaying={nowPlaying}
-          upComing={upcoming}
+          popularMovies={popular.results}
+          nowPlaying={nowPlaying.results}
+          upComing={upcoming.results}
         />
       </main>
 

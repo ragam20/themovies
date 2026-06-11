@@ -4,7 +4,7 @@ import { TvDetail } from "@/types/tv";
 import { useQuery } from "@tanstack/react-query";
 
 type GetTvShowDetail = {
-  id: number;
+  id: number | string;
 };
 
 export const getTVShowDetail = async ({ id }: GetTvShowDetail) => {

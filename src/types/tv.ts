@@ -1,4 +1,25 @@
-import type { ApiBaseList, MediaDetailCommon, MediaListCommon } from "./common";
+import type {
+  ApiBaseList,
+  Genre,
+  MediaDetailCommon,
+  MediaListCommon,
+  Cast,
+} from "./common";
+
+export type TVListMap = {
+  airing_today: {
+    slug: "airing-today";
+    title: "Airing Today";
+  };
+  on_the_air_: {
+    slug: "on-the-air";
+    title: "On The Air";
+  };
+  popular: {
+    slug: "popular";
+    title: "Popular";
+  };
+};
 
 export interface Creator {
   id: number;
@@ -65,4 +86,9 @@ export interface TvDetail extends MediaDetailCommon {
   original_name: string;
   seasons: Season[];
   type: string;
+  genres: Genre[];
+}
+
+export interface Credits {
+  cast: Cast[];
 }

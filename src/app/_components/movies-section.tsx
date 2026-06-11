@@ -1,7 +1,7 @@
 "use client";
 
-import { MovieListComp } from "@/components/list/movie-list";
 import { paths } from "@/config/paths";
+import { MovieListComp } from "@/features/movie/components/movie-list";
 import { MovieList } from "@/types/movie";
 import { useRouter } from "next/navigation";
 

@@ -1,23 +1,33 @@
 import { api } from "@/lib/api-client";
-import { maxRetry } from "@/lib/react-query";
 import { ApiBaseList } from "@/types/common";
 import { MovieList } from "@/types/movie";
-import { useQuery } from "@tanstack/react-query";
 
-type GetPopularInput = {
+export type GetPopularInput = {
   page: number;
+  minDate?: string;
+  maxDate?: string;
 };
-export const getPopular = async ({ page }: GetPopularInput) => {
-  const resp = await api.get<ApiBaseList<MovieList>>(
-    `/movie/popular?language=en-US&page=${page}`,
-  );
-  return resp.results;
-};
-
-export const useGetPopular = (input: GetPopularInput) => {
-  return useQuery<MovieList[], Error>({
-    retry: maxRetry,
-    queryKey: ["movie", "popular", input.page],
-    queryFn: () => getPopular(input),
+export const getPopular = async ({
+  page,
+  minDate,
+  maxDate,
+}: GetPopularInput) => {
+  const params = new URLSearchParams({
+    language: "en-US",
+    page: String(page),
   });
+
+  if (minDate) {
+    params.append("release_date.gte", minDate);
+  }
+
+  if (maxDate) {
+    params.append("release_date.lte", maxDate);
+  }
+
+  const resp = await api.get<ApiBaseList<MovieList>>(
+    `/movie/popular?${params.toString()}`,
+  );
+
+  return resp;
 };

@@ -1,7 +1,6 @@
-"use client";
-
 import { publicEnv } from "@/config/public-env";
-import { Cast, MovieDetail } from "@/types/movie";
+import { Cast } from "@/types/common";
+import { MovieDetail } from "@/types/movie";
 import { Star } from "lucide-react";
 import Image from "next/image";
 
@@ -10,6 +9,8 @@ type DetailProps = {
   casts?: Cast[];
 };
 export const Detail = ({ movie, casts }: DetailProps) => {
+  const hasCasts = casts && casts.length > 0;
+
   return (
     <div>
       <div className="relative h-[50vh]">
@@ -49,29 +50,39 @@ export const Detail = ({ movie, casts }: DetailProps) => {
 
       <div className="p-4 mt-8">
         <h1 className="font-heading text-2xl text-white">Casts</h1>
-        <ul className="flex items-center justify-center md:justify-start gap-4 mt-4 overflow-x-auto no-scrollbar flex-wrap">
-          {casts?.map((cast) => {
-            return (
-              <li key={cast.id} className="flex flex-col gap-2 items-center">
-                <div className="h-24 w-24 rounded-full overflow-hidden">
+        <ul className="mt-4 flex gap-4 overflow-x-auto no-scrollbar">
+          {!hasCasts ? (
+            <li className="w-full text-center text-white">No cast</li>
+          ) : (
+            casts?.map((cast) => (
+              <li
+                key={cast.id}
+                className="flex shrink-0 flex-col items-center gap-2"
+              >
+                <div className="relative h-24 w-24 overflow-hidden rounded-full">
                   <Image
-                    alt="profile-cast"
-                    width={96}
-                    height={96}
-                    className="h-full w-full object-cover"
-                    src={`${publicEnv.TMDB_BASE_IMG_URL}/original${cast?.profile_path}`}
+                    alt={cast.name}
+                    fill
+                    className="object-cover"
+                    src={
+                      cast.profile_path
+                        ? `${publicEnv.TMDB_BASE_IMG_URL}/original${cast.profile_path}`
+                        : ""
+                    }
                   />
                 </div>
-                <p className="text-white w-40 text-center font-bold text-md truncate">
+
+                <p className="w-40 truncate text-center text-md font-bold text-white">
                   {cast.name}
                 </p>
-                <p className="text-white/70 w-40 text-sm text-center">
+
+                <p className="w-40 text-center text-sm text-white/70">
                   {cast.character}
                 </p>
               </li>
-            );
-          })}
-        </ul>
+            ))
+          )}
+        </ul>{" "}
       </div>
     </div>
   );
